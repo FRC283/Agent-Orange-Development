@@ -3,8 +3,8 @@ import numpy
 
 vid_path = "C:\\Users\\FRC_STANDARD_USER\\Desktop\\Python Vision Code\\Python Vision Repository\\NapalmVision2017PostSCRIW\\test_video.mov"
 vid_path2 = "C:\\Users\Benjamin\\Desktop\\Python\\Python Vision\\Python Vision Repository\\283-Vision\\NapalmVision2017PostSCRIW\\test_video.mov"
-cap = cv2.VideoCapture(0)
-GREEN_LOWER = numpy.array([50, 140, 50])
+cap = cv2.VideoCapture(vid_path)
+GREEN_LOWER = numpy.array([70, 150, 150])
 GREEN_UPPER = numpy.array([140, 255, 255])
 while True :
     good, img = cap.read()
@@ -30,6 +30,7 @@ while True :
     x_avg = int((cc0[0] + cc1[0])/2)
     y_avg = int((cc0[1] + cc1[1])/2) 
     cv2.circle(img, (x_avg, y_avg), 14, (0, 255, 0), 4)
+    img = cv2.flip(img, 0)
     cv2.imshow("the image", img)
     cv2.waitKey(0)  
 cv2.destroyAllWindows()

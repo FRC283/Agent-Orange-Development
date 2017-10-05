@@ -1,5 +1,8 @@
 import cv2
-img = cv2.imread("C:\\Users\\FRC_STANDARD_USER\Desktop\\Python Vision Code\\Python Vision Repository\\NapalmVision2017PostSCRIW\\testimagesmall.png")
+
+path = "C:\\Users\\FRC_STANDARD_USER\Desktop\\Python Vision Code\\Python Vision Repository\\NapalmVision2017PostSCRIW\\testimagesmall.png"
+path2 = "C:\\Users\Benjamin\\Desktop\\Python\\Python Vision\\Python Vision Repository\\283-Vision\\NapalmVision2017PostSCRIW\\testimagesmall.png"
+img = cv2.imread(path2)
 img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 img_h = img[:,:,0] #Image but ONLY hue values
 img_h_copy = img_h

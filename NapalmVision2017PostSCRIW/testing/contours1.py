@@ -3,7 +3,7 @@ import numpy
 
 vid_path = "C:\\Users\\FRC_STANDARD_USER\\Desktop\\Python Vision Code\\Python Vision Repository\\NapalmVision2017PostSCRIW\\test_video.mov"
 vid_path2 = "C:\\Users\Benjamin\\Desktop\\Python\\Python Vision\\Python Vision Repository\\283-Vision\\NapalmVision2017PostSCRIW\\test_video.mov"
-cap = cv2.VideoCapture(vid_path)
+cap = cv2.VideoCapture(0)
 GREEN_LOWER = numpy.array([70, 150, 150])
 GREEN_UPPER = numpy.array([140, 255, 255])
 while True :
@@ -12,6 +12,9 @@ while True :
     mask = cv2.inRange(img_hsv, GREEN_LOWER, GREEN_UPPER)
     dumby = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     #Draw the two largest contours
+    print(dumby[0])
+    print(dumby[1])
+    print(dumby[2])
     areas = []
     reverse = {}
     index = 0

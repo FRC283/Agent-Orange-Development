@@ -5,16 +5,18 @@ from networktables import NetworkTables
 #TEMPORARY
 vid_path = "C:\\Users\\FRC_STANDARD_USER\\Desktop\\Python Vision Code\\Python Vision Repository\\NapalmVision2017PostSCRIW\\test_video.mov"
 img_path = "C:\\Users\\FRC_STANDARD_USER\\Desktop\\Python Vision Code\\Python Vision Repository\\NapalmVision2017PostSCRIW\\rgb_hsv.png"
+vid2_path = "C:\\Users\\FRC_STANDARD_USER\\Desktop\\Python Vision Code\\Python Vision Repository\\NapalmVision2017PostSCRIW\\palette.mp4"
 
 #Constants
 IP = "10.2.83.2"
-GREEN_LOWER = numpy.array([35, 150, 100])
+GREEN_LOWER = numpy.array([35, 100, 40])
 GREEN_UPPER = numpy.array([80, 255, 255])
 TABLE_NAME = "cv_data"
 
 #Main Code 
 camera = cv2.VideoCapture(0) #Stores the camera as a video source
 print("Camera Opened: " + str(camera.isOpened()))
+NetworkTables.setClientMode()
 NetworkTables.initialize(server=IP) #Target to retrieve table from
 table = NetworkTables.getTable(TABLE_NAME) #Save the cv_data table to a name.
 #The cv_data table is where all values will be written to
@@ -51,21 +53,26 @@ while True:
             #---End of Sorting
             c0m = cv2.moments(contours[reverse[areas[0]]]) #Moments (number-data) about the highest-area contour
             c1m = cv2.moments(contours[reverse[areas[1]]]) #Moments (number-data) about the second-highest-area contour
-            c0x = c0m['m10']/c0m['m00'] #Center of mass of contour 0 in the x
-            c0y = c0m['m01']/c0m['m00'] #Center of mass of contour 0 in the y
-            c1x = c1m['m10']/c1m['m00'] #Center of mass of contour 1 in the x
-            c1y = c1m['m01']/c1m['m00'] #Center of mass of contour 1 in the y
-            cmx = (c0x + c1x)/2 #The image center of mass in x is the average
-            cmy = (c0y + c1y)/2 #The image center of mass in y is the average
-            height, width, channels = img.shape #Fetch the image properties
-            dx = (cmx) - (width - 1) #Calculate the difference in the x between the center of mass and center of image
-            dy = (cmy) - (height - 1) #Calculate the difference in the y between the center of mass and the center of image
-            table.putNumber("dx", dx) #Our final product is that vector
-            table.putNumber("dy", dy)
-            print("dx: " + str(dx))
-            print("dy: " + str(dy))
-            print("---")
-            cv2.circle(img, (int(cmx), int(cmy)), 14, (0, 255, 0), 4)
+            if c0m['m00'] != 0 or c1m['m00'] != 0: #Avoid division by 0
+                c0x = c0m['m10']/c0m['m00'] #Center of mass of contour 0 in the x
+                c0y = c0m['m01']/c0m['m00'] #Center of mass of contour 0 in the y
+                c1x = c1m['m10']/c1m['m00'] #Center of mass of contour 1 in the x
+                c1y = c1m['m01']/c1m['m00'] #Center of mass of contour 1 in the y
+                cmx = (c0x + c1x)/2 #The image center of mass in x is the average
+                cmy = (c0y + c1y)/2 #The image center of mass in y is the average
+                height, width, channels = img.shape #Fetch the image properties
+                dx = (cmx) - (width - 1) #Calculate the difference in the x between the center of mass and center of image
+                dy = (cmy) - (height - 1) #Calculate the difference in the y between the center of mass and the center of image
+                table.putNumber("dx", dx) #Our final product is that vector
+                table.putNumber("dy", dy)
+                print("dx: " + str(dx))
+                print("dy: " + str(dy))
+                cv2.circle(img, (int(cmx), int(cmy)), 14, (0, 255, 0), 4)
+            else:
+                print("A contour's m00 = 0!")
+                print("Updating dy = 0 and dx = 0")
+                table.putNumber("dx", 0)
+                table.putNumber("dy", 0)
         else:
             print("Cannot find at least 2 contours...")
         cv2.drawContours(img, contours, -1, (0, 0, 255), 3)

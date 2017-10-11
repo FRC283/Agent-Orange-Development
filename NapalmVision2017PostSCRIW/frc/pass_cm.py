@@ -8,7 +8,7 @@ img_path = "C:\\Users\\FRC_STANDARD_USER\\Desktop\\Python Vision Code\\Python Vi
 vid2_path = "C:\\Users\\FRC_STANDARD_USER\\Desktop\\Python Vision Code\\Python Vision Repository\\NapalmVision2017PostSCRIW\\palette.mp4"
 
 #Constants
-IP = "10.2.83.2"
+IP = "10.2.83.5"
 GREEN_LOWER = numpy.array([35, 100, 40])
 GREEN_UPPER = numpy.array([80, 255, 255])
 TABLE_NAME = "cv_data"

@@ -9,8 +9,8 @@ vid2_path = "C:\\Users\\FRC_STANDARD_USER\\Desktop\\Python Vision Code\\Python V
 
 #Constants
 IP = "10.2.83.5"
-GREEN_LOWER = numpy.array([35, 100, 40])
-GREEN_UPPER = numpy.array([80, 255, 255])
+GREEN_LOWER = numpy.array([50, 0, 200])
+GREEN_UPPER = numpy.array([80, 30, 255])
 TABLE_NAME = "cv_data"
 
 #Main Code 
@@ -53,7 +53,7 @@ while True:
             #---End of Sorting
             c0m = cv2.moments(contours[reverse[areas[0]]]) #Moments (number-data) about the highest-area contour
             c1m = cv2.moments(contours[reverse[areas[1]]]) #Moments (number-data) about the second-highest-area contour
-            if c0m['m00'] != 0 or c1m['m00'] != 0: #Avoid division by 0
+            if c0m['m00'] != 0 and c1m['m00'] != 0: #Avoid division by 0
                 c0x = c0m['m10']/c0m['m00'] #Center of mass of contour 0 in the x
                 c0y = c0m['m01']/c0m['m00'] #Center of mass of contour 0 in the y
                 c1x = c1m['m10']/c1m['m00'] #Center of mass of contour 1 in the x
@@ -61,8 +61,9 @@ while True:
                 cmx = (c0x + c1x)/2 #The image center of mass in x is the average
                 cmy = (c0y + c1y)/2 #The image center of mass in y is the average
                 height, width, channels = img.shape #Fetch the image properties
-                dx = (cmx) - (width - 1) #Calculate the difference in the x between the center of mass and center of image
-                dy = (cmy) - (height - 1) #Calculate the difference in the y between the center of mass and the center of image
+                print(img.shape)
+                dx = (cmx) - (width - 1)/2 #Calculate the difference in the x between the center of mass and center of image
+                dy = (cmy) - (height - 1)/2 #Calculate the difference in the y between the center of mass and the center of image
                 table.putNumber("dx", dx) #Our final product is that vector
                 table.putNumber("dy", dy)
                 print("dx: " + str(dx))

@@ -1,3 +1,0 @@
-from networktables import NetworkTables
-
-IP = "10.2.83.2"
